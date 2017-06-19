@@ -12,25 +12,28 @@ def read_from_file(fname, verbose):
       for t in range(1, int(in_file.readline())+1):
         if verbose: print("Case {}:".format(t))
 
+        parsed_ppl = ppl()
+
         # read size of the problem
-        n, m = [int(nm) for nm in in_file.readline().split()]
+        n, m = map(int, in_file.readline().split())
+        parsed_ppl = ppl(n=n, m=m)
         
         # read the objective function
         temp = in_file.readline().split()
-        sa_type = temp[0]
-        sa_func = [float(c) for c in temp[1:]]
+        parsed_ppl.ppl_type = temp[0]
+        parsed_ppl.target = [float(c) for c in temp[1:]]
+        parsed_ppl.t_vars = ['x'+str(i) for i in range(1,len(temp[1:])+1)]
 
         # read the restrictions
         temp = [ in_file.readline().split() for j in range(m) ]
-        A = [list(map(float,r[:-2])) for r in temp]
-        r_type = [r[-2] for r in temp]
-        b = [float(r[-1]) for r in temp]
+        parsed_ppl.A = [list(map(float,r[:-2])) for r in temp]
+        parsed_ppl.r_type = [r[-2] for r in temp]
+        parsed_ppl.b = [float(r[-1]) for r in temp]
+        parsed_ppl.x = ['x'+str(i) for i in range(1,n+1)]
 
         # read the variable types
-        x_type = in_file.readline().split()
+        parsed_ppl.x_type = in_file.readline().split()
 
-        parsed_ppl = ppl(
-          n, m, sa_type, sa_func, A, r_type, b, x_type)
         parsed_ppls.append(parsed_ppl)
 
         if verbose:
@@ -52,24 +55,26 @@ def read_from_input(verbose):
     if verbose: print("Case {}:".format(t))
 
     # read size of the problem
-    n, m = [int(nm) for nm in input().split()]
+    n, m = map(int, input().split())
+    parsed_ppl = ppl(n=n, m=m)
     
+
     # read the objective function
     temp = input().split()
-    sa_type = temp[0]
-    sa_func = [float(c) for c in temp[1:]]
+    parsed_ppl.ppl_type = temp[0]
+    parsed_ppl.target = [float(c) for c in temp[1:]]
+    parsed_ppl.t_vars = ['x'+str(i) for i in range(len(1,temp[1:])+1)]
 
     # read the restrictions
     temp = [ input().split() for j in range(m) ]
-    A = [list(map(float,r[:-2])) for r in temp]
-    r_type = [r[-2] for r in temp]
-    b = [float(r[-1]) for r in temp]
+    parsed_ppl.A = [list(map(float,r[:-2])) for r in temp]
+    parsed_ppl.r_type = [r[-2] for r in temp]
+    parsed_ppl.b = [float(r[-1]) for r in temp]
+    parsed_ppl.x = ['x'+str(i) for i in range(1,n+1)]
 
     # read the variable types
-    x_type = input().split()
+    parsed_ppl.x_type = input().split()
 
-    parsed_ppl = ppl(
-      n, m, sa_type, sa_func, A, r_type, b, x_type)
     parsed_ppls.append(parsed_ppl)
 
     if verbose:
@@ -77,7 +82,6 @@ def read_from_input(verbose):
       print('')
 
   return parsed_ppls
-
 
 def parse_ppl(fname=None, verbose=True):
   if fname:
