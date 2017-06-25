@@ -1,4 +1,4 @@
-from collections.abc import MutableMapping as MM
+from collections import MutableMapping as MM
 from collections import defaultdict
 
 # definition of the objective function container
@@ -118,7 +118,7 @@ class var_restrictions(MM):
     
   def __repr__(self):
     return ', '.join(
-      [ v+' '+t+' 0' for v,t in zip(self.var_names,self.rest_types) ])
+      [ v+' '+t+' 0' for v,t in zip(self.var_names,self.rest_types) if t != 'L' ])
 
   def __setitem__(self, key, value):
     if key in self.var_names:
