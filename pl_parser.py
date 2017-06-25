@@ -18,9 +18,9 @@ def parse_input():
     s = list()
     for j in range(m):
       unparsed_rest = input().split()
-      A = [float(a) for a in restriction[:-2]]
-      rest_t = restriction[-2]
-      b = float(restriction[-1])
+      A = [float(a) for a in unparsed_rest[:-2]]
+      rest_t = unparsed_rest[-2]
+      b = float(unparsed_rest[-1])
       s.append(restriction(A,rest_t,b))
 
     # each var is > 0, < 0 or L(unrestricted)
@@ -33,10 +33,5 @@ def parse_input():
 
 # for testing sake
 if __name__ == '__main__':
-    # for obj_type, cT, A, rest_t, b, var_rest in parse_input():
-    #   print(obj_type, cT)
-    #   for j, Aj in enumerate(A): print(Aj, rest_t[j], b[j])
-    #   print(var_rest)
-    #   print()
     for p in parse_input():
-      print(p)
+      print(p, '\n')
