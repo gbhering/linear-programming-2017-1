@@ -1,11 +1,11 @@
-from pl_base_classes import ppl, obj_function, restriction, var_restrictions
+from pl_base_classes import ppl, obj_function, constraint, var_constraints
 
 def parse_input():
   # number of problems to be solved
   p = int(input())
 
   for it in range(p):
-    # number of variables and of restrictions
+    # number of variables and of constraints
     n, m = [int(x) for x in input().split()]
 
     # the actual problem
@@ -14,21 +14,21 @@ def parse_input():
     cT = [float(c) for c in unparsed_obj[1:]]
     obj = obj_function(obj_type, cT)
 
-    # the restrictions
+    # the constraints
     s = list()
     for j in range(m):
       unparsed_rest = input().split()
       A = [float(a) for a in unparsed_rest[:-2]]
       rest_t = unparsed_rest[-2]
       b = float(unparsed_rest[-1])
-      s.append(restriction(A,rest_t,b))
+      s.append(constraint(A,rest_t,b))
 
-    # each var is > 0, < 0 or L(unrestricted)
-    unparsed_vr = input().split()
-    vr = var_restrictions()
-    for i in range(n): vr['x'+str(i+1)]=unparsed_vr[i]
+    # each var is > 0, < 0 or L(unconstrained)
+    unparsed_vc = input().split()
+    vc = var_constraints()
+    for i in range(n): vc['x'+str(i+1)]=unparsed_vc[i]
 
-    yield ppl(obj,s,vr)
+    yield ppl(obj,s,vc)
 
 
 # for testing sake
